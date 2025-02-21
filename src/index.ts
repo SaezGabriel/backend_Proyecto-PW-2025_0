@@ -22,6 +22,7 @@ const [proyectoPath, proyectoRouter] = ProyectoController()
 const [usuarioPath, usuarioRouter] = UsuarioController()
 const [categoriaPath, categoriaRouter] = CategoriaController()
 
+
 app.use(proyectoPath as string , proyectoRouter as Router)
 app.use(usuarioPath as string , usuarioRouter as Router)
 app.use(categoriaPath as string, categoriaRouter as Router)

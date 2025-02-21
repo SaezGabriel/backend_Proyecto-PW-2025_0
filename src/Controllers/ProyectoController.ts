@@ -36,7 +36,7 @@ const ProyectoController = () => {
     //      "msg" : "Error: ..."  
     //  }
     router.get("/", async (req : Request, resp : Response ) => {
-        const proyectos = await db.Proyecto.findAll({
+        const usuarios = await db.Proyecto.findAll({
             include : {
                 model : db.Categoria,
                 as : "Categoria",
@@ -47,7 +47,7 @@ const ProyectoController = () => {
 
         resp.json({
             msg : "",
-            proyectos : proyectos
+            usuarios : usuarios
         })
     })
 
