@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Proyecto', {
+    await queryInterface.createTable('Categoria', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -11,19 +11,21 @@ module.exports = {
       },
       nombre: {
         type: Sequelize.STRING
-      },
-      nro_pom: {
-        type: Sequelize.INTEGER
-      },
-      categoriaId: {
-        type: Sequelize.INTEGER
-      },
-      status: {
-        type: Sequelize.INTEGER
       }
-    });
+    })
+  
+
+  await queryInterface.addConstraint("Presupuesto", {
+    name : "FK_PRESUPUESTO_CATEGORIA",
+    type : "FOREIGN KEY",
+    fields : ["categoriaId"],
+    references : {
+      table : "Categoria",
+      field : "id"
+    }
+  })
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Proyecto');
+    await queryInterface.dropTable('Categoria');
   }
 };

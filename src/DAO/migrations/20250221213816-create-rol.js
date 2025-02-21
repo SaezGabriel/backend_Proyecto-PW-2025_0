@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Usuario', {
+    await queryInterface.createTable('Rol', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -11,16 +11,19 @@ module.exports = {
       },
       nombre: {
         type: Sequelize.STRING
-      },
-      username: {
-        type: Sequelize.STRING
-      },
-      password: {
-        type: Sequelize.STRING
       }
     });
+    await queryInterface.addConstraint("Usuario", {
+      name : "FK_USUARIO_ROL",
+      type : "FOREIGN KEY",
+      fields : ["rol"],
+      references : {
+        table : "Rol",
+        field : "id"
+      }
+    })
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Usuario');
+    await queryInterface.dropTable('Rol');
   }
 };

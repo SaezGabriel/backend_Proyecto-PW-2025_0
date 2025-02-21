@@ -3,7 +3,7 @@ import express, {Request, Response} from "express"
 const db = require("../DAO/models")
 
 const UsuarioController = () => {
-    const path = "/usuarios"
+    const path : string= "/usuarios"
 
     const router = express.Router()
 
@@ -57,22 +57,33 @@ const UsuarioController = () => {
     ///            required : true
     ///        }
     ///    })
-        const correo = req.query.correo
+        ///const id = Number(req.query.id)
+        ///const correo = req.query.correo
         // Lista de usuarios quemados (hardcoded)
-        const usuarios = [
-            { id: 1, nombre: "Jose", correo: "jose@example.com", contraseña: "1234", rol: 0 },
-            { id: 2, nombre: "Maria", correo: "maria@example.com", contraseña: "1234", rol: 0 },
-            { id: 3, nombre: "Pepe", correo: "pepe@example.com", contraseña: "abcd", rol: 1 }
-        ];
+        const usuarios = await db.Usuario.findAll({
+            include : {
+                model : db.Rol,
+                as : "Rol",
+                attributes : ["nombre"],
+                required : true
+            }
+        })
+        
+        ///const usuarioid = usuarios.find(id)
+        ///const usuarioEncontrado = usuarios.find(correo);
 
-        const usuarioEncontrado = usuarios.find(user => user.correo === correo);
-
-        if (usuarioEncontrado) {
-            resp.json({
-                msg: "",
-                usuarios: usuarioEncontrado
-            });
-        }else
+        ///if (usuarioEncontrado) {
+        ///    resp.json({
+        ///        msg: "",
+        ///        usuarios: usuarioEncontrado
+        ///    });
+        ///}else if(usuarioid){
+        ///   resp.json({
+        ///        msg: "",
+        ///        usuarios: usuarioid
+        ///  });
+        ///}
+        ///else
         {
             resp.json({
                 msg: "",
