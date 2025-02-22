@@ -96,19 +96,59 @@ const UsuarioController = () => {
     router.post("/", async (req : Request, resp : Response) => {
 
         const nuevoUsuario = req.body
-        console.log("Datos recibidos:", nuevoUsuario);
+
         const usuarioCreado = await db.Usuario.create({
             id : null,
             nombre : nuevoUsuario.nombre,
             correo : nuevoUsuario.correo,
             contraseña : nuevoUsuario.contraseña,
             rol : nuevoUsuario.rol
+            
         })
-    
         resp.json({
             msg : "",
             usuario : usuarioCreado
         })
+        });
+    
+    
+
+    router.put("/", async (req : Request, resp : Response) => {
+
+        const EditarUsuario = req.body
+        const id = Number(req.query.id)
+
+        const usuarioEncontrado = await db.Usuario.findAll({
+            where : {
+                id : id,
+            },
+            include : {
+                model : db.Rol,
+                as : "Rol",
+                attributes : ["nombre"],
+                required : true
+            }
+            
+        })
+
+        if (!usuarioEncontrado) {
+            resp.status(404).json({ msg: "Usuario no encontrado" })};
+
+        const UsuarioEditar = await db.Usuario.update({
+                nombre: EditarUsuario.nombre,
+                correo: EditarUsuario.correo,
+                contraseña: EditarUsuario.contraseña,
+                rol: EditarUsuario.rol
+            },
+            {
+                where:{id}
+            }
+        )
+
+        resp.json({
+            msg : "",
+            usuario : UsuarioEditar
+        })    
     });
     
     router.delete("/", async (req : Request, resp : Response) => {
