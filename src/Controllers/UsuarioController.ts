@@ -58,7 +58,7 @@ const UsuarioController = () => {
     ///        }
     ///    })
         ///const id = Number(req.query.id)
-        ///const correo = req.query.correo
+        const correo = req.query.correo ? String(req.query.correo) : null;
         // Lista de usuarios quemados (hardcoded)
         const usuarios = await db.Usuario.findAll({
             include : {
@@ -70,21 +70,34 @@ const UsuarioController = () => {
         })
         
         ///const usuarioid = usuarios.find(id)
-        ///const usuarioEncontrado = usuarios.find(correo);
+        
 
-        ///if (usuarioEncontrado) {
-        ///    resp.json({
-        ///        msg: "",
-        ///        usuarios: usuarioEncontrado
-        ///    });
-        ///}else if(usuarioid){
+        if (correo!=null) {
+            const usuarioEncontrado = await db.Usuario.findAll({
+                where : {
+                    correo : correo,
+                },
+                include : {
+                    model : db.Rol,
+                    as : "Rol",
+                    attributes : ["nombre"],
+                    required : true
+                }
+                
+            })
+            resp.json({
+                msg: "",
+                usuarios: usuarioEncontrado
+            });
+        }else{
+        /// else if(usuarioid){
         ///   resp.json({
         ///        msg: "",
         ///        usuarios: usuarioid
         ///  });
         ///}
-        ///else
-        {
+        
+        
             resp.json({
                 msg: "",
                 usuarios: usuarios
