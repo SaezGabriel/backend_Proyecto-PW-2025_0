@@ -92,6 +92,38 @@ const UsuarioController = () => {
 
         
     });
+
+    router.post("/", async (req : Request, resp : Response) => {
+
+        const nuevoUsuario = req.body
+        console.log("Datos recibidos:", nuevoUsuario);
+        const usuarioCreado = await db.Usuario.create({
+            id : null,
+            nombre : nuevoUsuario.nombre,
+            correo : nuevoUsuario.correo,
+            contraseña : nuevoUsuario.contraseña,
+            rol : nuevoUsuario.rol
+        })
+    
+        resp.json({
+            msg : "",
+            usuario : usuarioCreado
+        })
+    });
+    
+    router.delete("/", async (req : Request, resp : Response) => {
+        const id = Number(req.query.id) 
+    
+        await db.Usuario.destroy({
+            where : {
+                id : id
+            }
+        })
+    
+        resp.json({
+            msg : ""
+        })
+    })
         
     return [ path, router ]
 }
