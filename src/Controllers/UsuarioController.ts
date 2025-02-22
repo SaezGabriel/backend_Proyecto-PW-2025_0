@@ -1,49 +1,33 @@
-import express, {Request, Response} from "express"
-//import db from "../DAO/models"
-const db = require("../DAO/models")
+import express, { Request, Response } from "express";
+const db = require("../DAO/models");
 
 const UsuarioController = () => {
-    const path : string= "/usuarios"
+    const path = "/usuarios";
+    const router = express.Router();
 
-    const router = express.Router()
+    router.post("/login", async (req: Request, resp: Response) => {
+        console.log(req.body);
+        const { correo, contraseña } = req.body;
 
-    // Endpoint Login
-    // Ruta : "/login"
-    // Method: POST
-    // Form : usuario, password
-    // Output:
-    //  En el caso que login sea correcto:
-    //  {
-    //      "msg" : ""  
-    //  }
-    //  En el caso de error en el login:
-    //  {
-    //      "msg" : "Error en login"  
-    //  }
-    router.post("/login", async (req : Request, resp : Response) => {
-        console.log(req.body)
-        const usuario = req.body.usuario
-        const password = req.body.password
+        try {
+            const usuario = await db.Usuario.findOne({
+                where: { correo, contraseña },
+            });
 
-        const usuarios = await db.Usuario.findAll({
-            where : {
-                username : usuario,
-                password : password,
-                estado : true
+            if (usuario) {
+                console.log("Login correcto");
+                resp.json({
+                    msg: "Login exitoso",
+                    rol: usuario.rol, // Enviamos el rol_id
+                    nombre: usuario.nombre, // (Opcional) Enviar el nombre del usuario
+                });
+            } else {
+                console.log("Login incorrecto");
+                resp.status(401).json({ msg: "Error en login" });
             }
-        })
-        //console.log(usuarios)
-
-        if (usuarios.length > 0) {
-            // Login correcto
-            resp.json({
-                msg : ""
-            })
-        }else {
-            // Login es incorrecto
-            resp.json({
-                msg : "Error en login"
-            })
+        } catch (error) {
+            console.error("Error en la autenticación:", error);
+            resp.status(500).json({ msg: "Error en el servidor" });
         }
     })
     
