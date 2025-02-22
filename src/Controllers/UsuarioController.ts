@@ -20,6 +20,7 @@ const UsuarioController = () => {
                     msg: "Login exitoso",
                     rol: usuario.rol, // Enviamos el rol_id
                     nombre: usuario.nombre, // (Opcional) Enviar el nombre del usuario
+                    correo : usuario.correo
                 });
             } else {
                 console.log("Login incorrecto");
@@ -132,23 +133,42 @@ const UsuarioController = () => {
         })
 
         if (!usuarioEncontrado) {
-            resp.status(404).json({ msg: "Usuario no encontrado" })};
+            resp.status(404).json({ msg: "Usuario no encontrado" })}
+        else{
+            if(EditarUsuario.rol)
+            {const UsuarioEditar = await db.Usuario.update({
+                    nombre: EditarUsuario.nombre,
+                    correo: EditarUsuario.correo,
+                    contraseña: EditarUsuario.contraseña,
+                    rol: EditarUsuario.rol
+                },
+                {
+                    where:{id}
+                }
+            )
 
-        const UsuarioEditar = await db.Usuario.update({
-                nombre: EditarUsuario.nombre,
-                correo: EditarUsuario.correo,
-                contraseña: EditarUsuario.contraseña,
-                rol: EditarUsuario.rol
-            },
-            {
-                where:{id}
+            resp.json({
+                msg : "",
+                usuario : UsuarioEditar
+            })    
             }
-        )
+            else{
+                const UsuarioEditar = await db.Usuario.update({
+                    nombre: EditarUsuario.nombre,
+                    correo: EditarUsuario.correo,
+                    contraseña: EditarUsuario.contraseña,
+                },
+                {
+                    where:{id}
+                }
+            )
 
-        resp.json({
-            msg : "",
-            usuario : UsuarioEditar
-        })    
+            resp.json({
+                msg : "",
+                usuario : UsuarioEditar
+            })     
+            }
+        }
     });
     
     router.delete("/", async (req : Request, resp : Response) => {

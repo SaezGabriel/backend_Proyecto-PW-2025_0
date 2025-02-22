@@ -18,9 +18,9 @@ const PresupuestoController = () => {
     ///    })
         const presupuestos = [
             
-            { id: 1, CategoriaId: 0, Monto: 129.99},
-            { id: 2, CategoriaId: 1, Monto: 1229.99},
-            { id: 3, CategoriaId: 2, Monto: 779.99}
+            { id: 1, CategoriaId: 1, Monto: 129.99},
+            { id: 2, CategoriaId: 2, Monto: 1229.99},
+            { id: 3, CategoriaId: 3, Monto: 779.99}
         ];
 
         resp.json({

@@ -13,6 +13,10 @@ module.exports = (sequelize, DataTypes) => {
       Usuario.belongsTo(models.Rol, {
         foreignKey : "rol",
         as : "Rol"
+      }),
+      Usuario.hasMany(models.Categoria, {
+        foreignKey : "UsuarioId",
+        as : "Usuario"
       })
     }
   }

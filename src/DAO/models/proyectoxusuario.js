@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       ProyectoXUsuario.belongsTo(models.Proyecto, {
         foreignKey : "proyectoId",
         as : "Proyecto"
-      })
+      }),
       ProyectoXUsuario.belongsTo(models.Usuario, {
         foreignKey : "usuarioId",
         as : "Usuario"

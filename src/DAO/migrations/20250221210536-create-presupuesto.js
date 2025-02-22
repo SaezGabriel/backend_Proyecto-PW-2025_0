@@ -9,13 +9,17 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      categoriaId: {
+      UsuarioId: {
         type: Sequelize.INTEGER
       },
-      monto: {
-        type: Sequelize.STRING
+      monto_Mensual: {
+        type: Sequelize.NUMERIC
+      },
+      categoriaId: {
+        type: Sequelize.INTEGER
       }
     });
+    
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('Presupuesto');

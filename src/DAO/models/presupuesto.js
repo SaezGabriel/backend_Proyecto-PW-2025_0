@@ -14,11 +14,16 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey : "categoriaId",
         as : "Categoria"
       })
+      Presupuesto.belongsTo(models.Usuario, {
+        foreignKey : "UsuarioId",
+        as : "Usuario"
+      })
     }
   }
   Presupuesto.init({
-    categoriaId: DataTypes.INTEGER,
-    monto: DataTypes.STRING
+    UsuarioId: DataTypes.INTEGER,
+    monto_Mensual: DataTypes.NUMERIC,
+    categoriaId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Presupuesto',
