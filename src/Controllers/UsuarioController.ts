@@ -45,6 +45,8 @@ const UsuarioController = () => {
     ///    })
         ///const id = Number(req.query.id)
         const correo = req.query.correo ? String(req.query.correo) : null;
+        const rol = req.query.rol ? Number(req.query.rol) : null;
+        console.log(rol)
         // Lista de usuarios quemados (hardcoded)
         const usuarios = await db.Usuario.findAll({
             include : {
@@ -75,24 +77,37 @@ const UsuarioController = () => {
                 msg: "",
                 usuarios: usuarioEncontrado
             });
-        }else{
+        }else if(rol){
         /// else if(usuarioid){
         ///   resp.json({
         ///        msg: "",
         ///        usuarios: usuarioid
         ///  });
         ///}
+            const usuariosEncontrados = await db.Usuario.findAll({
+                where : {
+                    rol : rol,
+                },
+                include : {
+                    model : db.Rol,
+                    as : "Rol",
+                    attributes : ["nombre"],
+                    required : true
+                }
+                
+            })
+            resp.json({
+                msg: "",
+                usuarios: usuariosEncontrados
+            });
         
-        
+        }else
+        {
             resp.json({
                 msg: "",
                 usuarios: usuarios
             })
         }
-        
-           
-
-        
     });
 
     router.post("/", async (req : Request, resp : Response) => {
