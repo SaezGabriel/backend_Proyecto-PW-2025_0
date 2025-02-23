@@ -16,7 +16,14 @@ module.exports = (sequelize, DataTypes) => {
       }),
       Usuario.hasMany(models.Categoria, {
         foreignKey : "UsuarioId",
-        as : "Usuario"
+        as : "UsuarioCate",
+        onDelete: "CASCADE"
+      })
+
+      Usuario.hasMany(models.Presupuesto, {
+        foreignKey : "UsuarioId",
+        as : "UsuarioPre",
+        onDelete: "CASCADE"
       })
     }
   }

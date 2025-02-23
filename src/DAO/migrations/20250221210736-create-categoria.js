@@ -10,7 +10,8 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       UsuarioId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        onDelete: 'CASCADE'
       },
       nombre: {
         type: Sequelize.STRING

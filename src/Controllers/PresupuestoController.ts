@@ -42,17 +42,15 @@ const PresupuestoController = () => {
     router.put("/", async (req : Request, resp : Response) => {
 
         const EditarPresupuesto = req.body
-        const UsuarioId = Number(req.query.UsuarioId)
-        console.log(EditarPresupuesto)
+        const id = Number(req.query.id)
 
         const PresupuestoEncontrado = await db.Presupuesto.findOne({
             where : {
-                UsuarioId : UsuarioId,
-                monto_Mensual : Number(EditarPresupuesto.PresupuestoSeleccionado.monto_Mensual),
-                categoriaId : EditarPresupuesto.PresupuestoSeleccionado.categoriaId
+                id : id,
             }
             
         })
+
 
         console.log(PresupuestoEncontrado)
 
@@ -64,21 +62,17 @@ const PresupuestoController = () => {
                 monto_Mensual: EditarPresupuesto.monto_Mensual,
                 categoriaId: EditarPresupuesto.categoriaId,
                 },
-                {where :
-                    {
-                        UsuarioId : UsuarioId,
-                        monto_Mensual : Number(EditarPresupuesto.PresupuestoSeleccionado.monto_Mensual),
-                        categoriaId : EditarPresupuesto.PresupuestoSeleccionado.categoriaId
-                    }
+                {
+                    where : { id : id}
                 }
-                
             )
-            console.log(PresupuestoEditar)
+            console.log(PresupuestoEditar) 
+            
+            
             resp.json({
                 msg : "",
-                Presupuesto : PresupuestoEditar
-            })    
-
+                Presupuesto : PresupuestoEditar,
+            })
             }
             
             
@@ -87,31 +81,31 @@ const PresupuestoController = () => {
         }
     });
 
+    router.post("/", async (req : Request, resp : Response) => {
+
+        const presupuesto = req.body
+
+        const presupuestoCreado = await db.Presupuesto.create({
+            id : null,
+            UsuarioId : presupuesto.UsuarioId,
+            monto_Mensual : presupuesto.monto_Mensual,
+            categoriaId : presupuesto.categoriaId
+        })
+        resp.json({
+            msg : "",
+            presupuesto : presupuestoCreado
+        })
+        });
+
     router.delete("/", async (req : Request, resp : Response) => {
         const id = Number(req.query.id)
-        const UsuarioId = Number(req.query.UsuarioId)
-        const monto_Mensual = Number(req.query.monto_Mensual)
-        const categoriaId = Number(req.query.categoriaId)
-    
-        console.log(monto_Mensual)
-        console.log(categoriaId)
 
         await db.Presupuesto.destroy({
             where : {
                 id : id,
-                UsuarioId : UsuarioId,
-                monto_Mensual : monto_Mensual,
-                categoriaId : categoriaId
             }
         })
 
-        await db.Categoria.destroy({
-            where : {
-                id : categoriaId,
-                UsuarioId : UsuarioId
-            }
-        })
- 
     
         resp.json({
             msg : ""

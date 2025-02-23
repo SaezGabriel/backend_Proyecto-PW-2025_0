@@ -16,7 +16,8 @@ module.exports = (sequelize, DataTypes) => {
       })
       Presupuesto.belongsTo(models.Usuario, {
         foreignKey : "UsuarioId",
-        as : "Usuario"
+        as : "Usuario",
+        onDelete: "CASCADE"
       })
     }
   }

@@ -30,7 +30,8 @@ module.exports = {
       references : {
         table : "Usuario",
         field : "id"
-      }
+      },
+      onDelete: "CASCADE"
     })
     await queryInterface.addConstraint("Presupuesto", {
       name : "FK_PRESUPUESTO_USUARIO",
@@ -39,7 +40,8 @@ module.exports = {
       references : {
         table : "Usuario",
         field : "id"
-      }
+      },
+      onDelete: "CASCADE"
     })
   },
   async down(queryInterface, Sequelize) {
