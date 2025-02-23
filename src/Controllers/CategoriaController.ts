@@ -7,7 +7,13 @@ const CategoriaController = () => {
     const router = express.Router()
 
     router.get("/", async (req : Request, resp : Response) => {
-        const categorias = await db.Categoria.findAll()
+
+        const UsuarioId = req.query.UsuarioId
+        const categorias = await db.Categoria.findAll(
+            {
+                where : {UsuarioId : UsuarioId}
+            } 
+        )
         ///const categorias = [
             
             ///{ CategoriaId: 1, nombre: "Servicio"},

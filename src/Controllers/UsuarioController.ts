@@ -18,6 +18,7 @@ const UsuarioController = () => {
                 console.log("Login correcto");
                 resp.json({
                     msg: "Login exitoso",
+                    id: usuario.id,
                     rol: usuario.rol, // Enviamos el rol_id
                     nombre: usuario.nombre, // (Opcional) Enviar el nombre del usuario
                     correo : usuario.correo
