@@ -14,15 +14,12 @@ module.exports = {
     */
     return queryInterface.bulkInsert("Categoria", [
       { 
-        UsuarioId : 1,
         nombre : "Servicios"
       },
       { 
-        UsuarioId : 1,
         nombre : "Alimentacion"
       },
       { 
-        UsuarioId : 1,
         nombre : "Ocio"
       }
     ],{})

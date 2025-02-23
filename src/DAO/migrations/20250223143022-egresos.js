@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Presupuesto', {
+    await queryInterface.createTable('Egresos', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -12,16 +12,25 @@ module.exports = {
       UsuarioId: {
         type: Sequelize.INTEGER
       },
-      monto_Mensual: {
+      monto: {
         type: Sequelize.NUMERIC
+      },
+      fecha: {
+        type: Sequelize.STRING    
+      },
+      descripcion: {
+        type: Sequelize.STRING    
+      },
+      recursivo: {
+        type: Sequelize.BOOLEAN
       },
       categoriaId: {
         type: Sequelize.INTEGER
-      }
+      },
     });
     
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Presupuesto');
+    await queryInterface.dropTable('Egresos');
   }
 };

@@ -9,9 +9,6 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      UsuarioId: {
-        type: Sequelize.INTEGER
-      },
       nombre: {
         type: Sequelize.STRING
       }
@@ -27,6 +24,17 @@ module.exports = {
       field : "id"
     }
   })
+
+  await queryInterface.addConstraint("Egresos", {
+    name : "FK_EGRESOS_CATEGORIA",
+    type : "FOREIGN KEY",
+    fields : ["categoriaId"],
+    references : {
+      table : "Categoria",
+      field : "id"
+    }
+  })
+  
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('Categoria');
