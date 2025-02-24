@@ -126,7 +126,7 @@ const EgresosController = () => {
             })
         }
     })
-        
+
     return [ path, router ]
 }
 
