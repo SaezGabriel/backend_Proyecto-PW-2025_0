@@ -14,15 +14,9 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey : "categoriaId",
         as : "Categoria"
       })
-      Categoria.belongsTo(models.Usuario, {
-        foreignKey : "UsuarioId",
-        as : "Usuario",
-        onDelete: "CASCADE"
-      })
     }
   }
   Categoria.init({
-    UsuarioId: DataTypes.INTEGER,
     nombre: DataTypes.STRING
   }, {
     sequelize,

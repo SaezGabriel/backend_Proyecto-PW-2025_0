@@ -14,11 +14,6 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey : "rol",
         as : "Rol"
       }),
-      Usuario.hasMany(models.Categoria, {
-        foreignKey : "UsuarioId",
-        as : "UsuarioCate",
-        onDelete: "CASCADE"
-      })
 
       Usuario.hasMany(models.Presupuesto, {
         foreignKey : "UsuarioId",

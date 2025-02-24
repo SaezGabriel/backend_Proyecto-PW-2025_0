@@ -8,12 +8,8 @@ const CategoriaController = () => {
 
     router.get("/", async (req : Request, resp : Response) => {
 
-        const UsuarioId = req.query.UsuarioId
-        const categorias = await db.Categoria.findAll(
-            {
-                where : {UsuarioId : UsuarioId}
-            } 
-        )
+    
+        const categorias = await db.Categoria.findAll()
         ///const categorias = [
             
             ///{ CategoriaId: 1, nombre: "Servicio"},

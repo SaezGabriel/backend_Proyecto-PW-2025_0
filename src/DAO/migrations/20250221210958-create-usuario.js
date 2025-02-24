@@ -23,16 +23,6 @@ module.exports = {
       },
     
     });
-    await queryInterface.addConstraint("Categoria", {
-      name : "FK_CATEGORIA_USUARIO",
-      type : "FOREIGN KEY",
-      fields : ["UsuarioId"],
-      references : {
-        table : "Usuario",
-        field : "id"
-      },
-      onDelete: "CASCADE"
-    })
     await queryInterface.addConstraint("Presupuesto", {
       name : "FK_PRESUPUESTO_USUARIO",
       type : "FOREIGN KEY",
