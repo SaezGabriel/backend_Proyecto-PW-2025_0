@@ -73,6 +73,7 @@ const EgresosController = () => {
 
         const egresoCreado = await db.Egresos.create({
             id : null,
+            UsuarioId : nuevoEgreso.UsuarioId,
             monto : nuevoEgreso.monto,
             fecha : nuevoEgreso.fecha,
             descripcion : nuevoEgreso.descripcion,
@@ -101,6 +102,8 @@ const EgresosController = () => {
             msg : ""
         })
     })
+
+    
         
     return [ path, router ]
 }

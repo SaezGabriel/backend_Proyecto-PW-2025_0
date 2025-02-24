@@ -16,7 +16,7 @@ module.exports = {
         type: Sequelize.NUMERIC
       },
       fecha: {
-        type: Sequelize.STRING    
+        type: Sequelize.DATEONLY    
       },
       descripcion: {
         type: Sequelize.STRING    

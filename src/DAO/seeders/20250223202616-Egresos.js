@@ -6,9 +6,11 @@ module.exports = {
     
     return queryInterface.bulkInsert('Egresos', [
       {
+        //Restar 1 al mes o sino recibiras datos diferentes.
         UsuarioId : 1,
         monto : 129.99,
-        fecha : Date("12/12/2024"),
+        // Date("12/12/2024"
+        fecha : new Date(2024,11,12),
         descripcion : "La Niebla, libro de Steven King",
         recursivo : false,
         categoriaId : 3,
@@ -16,7 +18,7 @@ module.exports = {
       {
         UsuarioId: 1,
         monto : 1229.99,
-        fecha : Date("02/12/2024"),
+        fecha : new Date(2024,1,12),
         descripcion : "Servicio de Luz",
         recursivo : true,
         categoriaId : 1,
@@ -24,7 +26,7 @@ module.exports = {
       {
         UsuarioId: 1,
         monto : 779.99,
-        fecha : Date("02/12/2024"),
+        fecha : new Date(2024,11,2),
         descripcion : "Servicio de Agua",
         recursivo : true,
         categoriaId : 2,

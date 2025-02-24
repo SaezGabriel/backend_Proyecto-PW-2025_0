@@ -13,17 +13,6 @@ module.exports = {
         type: Sequelize.STRING
       }
     })
-  
-
-  await queryInterface.addConstraint("Presupuesto", {
-    name : "FK_PRESUPUESTO_CATEGORIA",
-    type : "FOREIGN KEY",
-    fields : ["categoriaId"],
-    references : {
-      table : "Categoria",
-      field : "id"
-    }
-  })
 
   await queryInterface.addConstraint("Egresos", {
     name : "FK_EGRESOS_CATEGORIA",
@@ -34,7 +23,7 @@ module.exports = {
       field : "id"
     }
   })
-  
+
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('Categoria');

@@ -23,15 +23,7 @@ module.exports = {
       },
     
     });
-    await queryInterface.addConstraint("Presupuesto", {
-      name : "FK_PRESUPUESTO_USUARIO",
-      type : "FOREIGN KEY",
-      fields : ["UsuarioId"],
-      references : {
-        table : "Usuario",
-        field : "id"
-      }
-    })
+  
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('Usuario');
