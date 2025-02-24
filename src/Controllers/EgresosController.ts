@@ -70,7 +70,7 @@ const EgresosController = () => {
     */
     router.post("/", async (req : Request, resp : Response) => {
         const nuevoEgreso = req.body
-
+        console.log("Nuevo egreso: "+ nuevoEgreso.recursivo)
         const egresoCreado = await db.Egresos.create({
             id : null,
             UsuarioId : nuevoEgreso.UsuarioId,
@@ -78,8 +78,10 @@ const EgresosController = () => {
             fecha : nuevoEgreso.fecha,
             descripcion : nuevoEgreso.descripcion,
             recurrente : nuevoEgreso.recurrente,
-            categoriaId : nuevoEgreso.categoria
+            categoriaId : nuevoEgreso.categoriaId
         })
+
+        console.log("Egreso creado: " + egresoCreado)
 
         resp.json({
             msg : "",
