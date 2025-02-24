@@ -103,7 +103,29 @@ const EgresosController = () => {
         })
     })
 
-    
+    // Operacion para obtener un egreso segun id
+    router.get("/:id", async (req : Request, resp : Response ) => {
+        const idBuscada = req.params.id
+        const egreso = await db.Egresos.findAll({
+            where : {id : idBuscada},
+            include : {
+                model : db.Categoria,
+                as : "Categoria",
+                attributes : ["nombre"],
+                required : true
+            }
+        })
+        if(!egreso){
+            resp.json({
+                msg : "Egreso no encontrado"
+            })
+        }else{
+            resp.json({
+                msg : "",
+                egreso :  egreso[0]
+            })
+        }
+    })
         
     return [ path, router ]
 }
