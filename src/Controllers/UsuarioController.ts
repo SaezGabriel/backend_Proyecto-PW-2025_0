@@ -18,10 +18,9 @@ const UsuarioController = () => {
                 console.log("Login correcto");
                 resp.json({
                     msg: "Login exitoso",
-                    id: usuario.id,
                     rol: usuario.rol, // Enviamos el rol_id
-                    nombre: usuario.nombre, // (Opcional) Enviar el nombre del usuario
-                    correo : usuario.correo
+                    correo : usuario.correo,
+                    contraseña : usuario.contraseña
                 });
             } else {
                 console.log("Login incorrecto");
@@ -138,12 +137,6 @@ const UsuarioController = () => {
         const usuarioEncontrado = await db.Usuario.findAll({
             where : {
                 id : id,
-            },
-            include : {
-                model : db.Rol,
-                as : "Rol",
-                attributes : ["nombre"],
-                required : true
             }
             
         })
@@ -159,7 +152,7 @@ const UsuarioController = () => {
                     rol: EditarUsuario.rol
                 },
                 {
-                    where:{id}
+                    where:{id : id}
                 }
             )
 
@@ -175,7 +168,7 @@ const UsuarioController = () => {
                     contraseña: EditarUsuario.contraseña,
                 },
                 {
-                    where:{id}
+                    where:{id : id}
                 }
             )
 
