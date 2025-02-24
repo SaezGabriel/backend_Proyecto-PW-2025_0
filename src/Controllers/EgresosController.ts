@@ -70,14 +70,13 @@ const EgresosController = () => {
     */
     router.post("/", async (req : Request, resp : Response) => {
         const nuevoEgreso = req.body
-        console.log("Nuevo egreso: "+ nuevoEgreso.recursivo)
         const egresoCreado = await db.Egresos.create({
             id : null,
             UsuarioId : nuevoEgreso.UsuarioId,
             monto : nuevoEgreso.monto,
             fecha : nuevoEgreso.fecha,
             descripcion : nuevoEgreso.descripcion,
-            recurrente : nuevoEgreso.recurrente,
+            recursivo : nuevoEgreso.recurrente,
             categoriaId : nuevoEgreso.categoriaId
         })
 
@@ -91,15 +90,12 @@ const EgresosController = () => {
 
     router.delete("/", async (req : Request, resp : Response) => {
         const id = Number(req.query.id)
-        const UsuarioId = Number(req.query.UsuarioId)
 
         await db.Egresos.destroy({
             where : {
-                id : id,
-                UsuarioId : UsuarioId
+                id : id
             }
         })
-    
         resp.json({
             msg : ""
         })
@@ -127,6 +123,28 @@ const EgresosController = () => {
                 egreso :  egreso[0]
             })
         }
+    })
+
+    router.post("/editar", async (req : Request, resp : Response) => {
+        const egresoEditar = req.body
+        const egresoEditado = await db.Egresos.update({
+            monto : egresoEditar.monto,
+            fecha : egresoEditar.fecha,
+            descripcion : egresoEditar.descripcion,
+            recursivo : egresoEditar.recurrente,
+            categoriaId : egresoEditar.categoriaId
+        }, {
+            where : {
+                id : egresoEditar.id
+            }
+        })
+
+        console.log("Egreso editado: " + egresoEditado)
+
+        resp.json({
+            msg : "",
+            egreso : egresoEditado
+        })
     })
 
     return [ path, router ]
