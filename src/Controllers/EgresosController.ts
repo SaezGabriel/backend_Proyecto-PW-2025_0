@@ -14,7 +14,6 @@ const EgresosController = () => {
     // Method: GET
     // Input
     // Output:
-    //  En el caso que login sea correcto:
     //  {
     //      "msg" : "",
     //      "egresos" : [
@@ -32,6 +31,23 @@ const EgresosController = () => {
     //  {
     //      "msg" : "Error: ..."  
     //  }
+    router.get("/", async (req : Request, resp : Response ) => {
+
+        const egresos = await db.Egresos.findAll({
+            include: {
+                model: db.Categoria,
+                as: "Categoria",
+                attributes: ["nombre"],
+                required: true
+            }
+        });
+        
+        resp.json({
+            msg : "",
+            egresos : egresos
+        })
+    })
+
     router.get("/todo/:id", async (req : Request, resp : Response ) => {
         const UsuarioId = Number(req.params.id)
 
