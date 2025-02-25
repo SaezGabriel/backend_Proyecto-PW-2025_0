@@ -1,10 +1,10 @@
 {
   "development": {
-    "username": "pomodoro_back",
-    "password": "back",
-    "database": "pomodoro_back",
+    "username": "root",
+    "password": null,
+    "database": "database_development",
     "host": "127.0.0.1",
-    "dialect": "postgres"
+    "dialect": "mysql"
   },
   "test": {
     "username": "root",

@@ -31,6 +31,6 @@ module.exports = (sequelize, DataTypes) => {
       tableName: "Egresos",
       timestamps: false
   });
-
+  
   return Egreso;
-};
+  };
