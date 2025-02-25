@@ -9,7 +9,7 @@ module.exports = {
         //Restar 1 al mes o sino recibiras datos diferentes.
         UsuarioId : 1,
         monto : 129.99,
-        // Date("12/12/2024"
+        // Date("12/12/2024")
         fecha : new Date(2024,11,12),
         descripcion : "La Niebla, libro de Steven King",
         recursivo : false,
@@ -29,6 +29,13 @@ module.exports = {
         fecha : new Date(2024,11,2),
         descripcion : "Servicio de Agua",
         recursivo : true,
+        categoriaId : 2,
+      },{
+        UsuarioId: 2,
+        monto : 64.99,
+        fecha : new Date(2025,11,25),
+        descripcion : "Pizza",
+        recursivo : false,
         categoriaId : 2,
       }
     ])

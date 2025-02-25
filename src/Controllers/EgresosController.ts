@@ -32,15 +32,21 @@ const EgresosController = () => {
     //  {
     //      "msg" : "Error: ..."  
     //  }
-    router.get("/", async (req : Request, resp : Response ) => {
+    router.get("/todo/:id", async (req : Request, resp : Response ) => {
+        const UsuarioId = Number(req.params.id)
+
         const egresos = await db.Egresos.findAll({
-            include : {
-                model : db.Categoria,
-                as : "Categoria",
-                attributes : ["nombre"],
-                required : true
+            where: {
+                UsuarioId: UsuarioId
+            },
+            include: {
+                model: db.Categoria,
+                as: "Categoria",
+                attributes: ["nombre"],
+                required: true
             }
-        })
+        });
+        
         resp.json({
             msg : "",
             egresos : egresos

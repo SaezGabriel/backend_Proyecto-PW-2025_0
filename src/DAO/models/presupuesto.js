@@ -3,37 +3,33 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Egresos extends Model {
+  class Presupuesto extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Egresos.belongsTo(models.Categoria, {
+      Presupuesto.belongsTo(models.Categoria, {
         foreignKey : "categoriaId",
-        as : "Categoria",
-        onDelete: "CASCADE"
+        as : "Categoria"
       })
-      Egresos.belongsTo(models.Usuario, {
+      Presupuesto.belongsTo(models.Usuario, {
         foreignKey : "UsuarioId",
         as : "Usuario",
         onDelete: "CASCADE"
       })
     }
   }
-  Egresos.init({
+  Presupuesto.init({
     UsuarioId: DataTypes.INTEGER,
-    monto: DataTypes.NUMERIC,
-    fecha: DataTypes.DATEONLY,
-    descripcion: DataTypes.STRING,
-    recursivo: DataTypes.BOOLEAN,
+    monto_Mensual: DataTypes.NUMERIC,
     categoriaId: DataTypes.INTEGER
   }, {
     sequelize,
-    modelName: 'Egresos',
+    modelName: 'Presupuesto',
     freezeTableName : true,
     timestamps : false
   });
-  return Egresos;
+  return Presupuesto;
 };

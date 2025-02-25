@@ -6,32 +6,27 @@ const UsuarioController = () => {
     const router = express.Router();
 
     router.post("/login", async (req: Request, resp: Response) => {
-        console.log(req.body);
         const { correo, contraseña } = req.body;
-
-        try {
-            const usuario = await db.Usuario.findOne({
-                where: { correo, contraseña },
+    
+        const usuario = await db.Usuario.findOne({
+            where: { correo, contraseña },
+        });
+    
+        if (usuario) {
+            console.log("✅ Login correcto");
+            resp.json({
+                msg: "Login exitoso",
+                id: usuario.id,
+                rol: usuario.rol, // Enviamos el rol_id
+                nombre: usuario.nombre, 
+                correo: usuario.correo
             });
-
-            if (usuario) {
-                console.log("Login correcto");
-                resp.json({
-                    msg: "Login exitoso",
-                    id: usuario.id,
-                    rol: usuario.rol, // Enviamos el rol_id
-                    nombre: usuario.nombre, // (Opcional) Enviar el nombre del usuario
-                    correo : usuario.correo
-                });
-            } else {
-                console.log("Login incorrecto");
-                resp.status(401).json({ msg: "Error en login" });
-            }
-        } catch (error) {
-            console.error("Error en la autenticación:", error);
-            resp.status(500).json({ msg: "Error en el servidor" });
+        } else {
+            console.log("❌ Login incorrecto");
+            resp.status(401).json({ msg: "Error en login" });
         }
     })
+    
     
 
     router.get("/", async (req : Request, resp : Response ) => {
@@ -45,6 +40,8 @@ const UsuarioController = () => {
     ///    })
         ///const id = Number(req.query.id)
         const correo = req.query.correo ? String(req.query.correo) : null;
+        const rol = req.query.rol ? Number(req.query.rol) : null;
+        console.log(rol)
         // Lista de usuarios quemados (hardcoded)
         const usuarios = await db.Usuario.findAll({
             include : {
@@ -75,24 +72,37 @@ const UsuarioController = () => {
                 msg: "",
                 usuarios: usuarioEncontrado
             });
-        }else{
+        }else if(rol){
         /// else if(usuarioid){
         ///   resp.json({
         ///        msg: "",
         ///        usuarios: usuarioid
         ///  });
         ///}
+            const usuariosEncontrados = await db.Usuario.findAll({
+                where : {
+                    rol : rol,
+                },
+                include : {
+                    model : db.Rol,
+                    as : "Rol",
+                    attributes : ["nombre"],
+                    required : true
+                }
+                
+            })
+            resp.json({
+                msg: "",
+                usuarios: usuariosEncontrados
+            });
         
-        
+        }else
+        {
             resp.json({
                 msg: "",
                 usuarios: usuarios
             })
         }
-        
-           
-
-        
     });
 
     router.post("/", async (req : Request, resp : Response) => {
@@ -123,12 +133,6 @@ const UsuarioController = () => {
         const usuarioEncontrado = await db.Usuario.findAll({
             where : {
                 id : id,
-            },
-            include : {
-                model : db.Rol,
-                as : "Rol",
-                attributes : ["nombre"],
-                required : true
             }
             
         })
@@ -144,7 +148,7 @@ const UsuarioController = () => {
                     rol: EditarUsuario.rol
                 },
                 {
-                    where:{id}
+                    where:{id : id}
                 }
             )
 
@@ -160,7 +164,7 @@ const UsuarioController = () => {
                     contraseña: EditarUsuario.contraseña,
                 },
                 {
-                    where:{id}
+                    where:{id : id}
                 }
             )
 
@@ -185,6 +189,35 @@ const UsuarioController = () => {
             msg : ""
         })
     })
+
+    router.post("/ingresar-codigo", async (req: Request, resp: Response) => {
+        let { codigo } = req.body;
+    
+        codigo = String(codigo);
+    
+        const nuevoCodigo = await db.codigovef.create({ codigo });
+    
+        resp.json({ message: "Código ingresado correctamente.", codigo: nuevoCodigo });
+    });
+    
+   
+    router.post("/verificar-codigo", async (req: Request, resp: Response) => {
+        let { codigo } = req.body; // Ahora tomamos el código desde body
+    
+        codigo = String(codigo);
+    
+        const registro = await db.codigovef.findOne({
+            where: { codigo }
+        });
+    
+        if (!registro) {
+            resp.status(400).json({ error: "Código incorrecto." });
+        } else {
+            resp.json({ message: "Código válido." });
+        }
+    });
+
+
         
     return [ path, router ]
 }
