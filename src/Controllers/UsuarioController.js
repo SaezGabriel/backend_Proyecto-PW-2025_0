@@ -14,13 +14,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const db = require("../DAO/models");
+const { SHA256 } = require("sha2");
 const UsuarioController = () => {
     const path = "/usuarios";
     const router = express_1.default.Router();
     router.post("/login", (req, resp) => __awaiter(void 0, void 0, void 0, function* () {
         const { correo, contraseña } = req.body;
+        const hashContra = SHA256(contraseña).toString("hex");
+        console.log("================================");
+        console.log("Hash contra+", hashContra);
+        console.log("================================");
         const usuario = yield db.Usuario.findOne({
-            where: { correo, contraseña },
+            where: { correo: correo, contraseña: hashContra },
         });
         if (usuario) {
             console.log("✅ Login correcto");
@@ -113,7 +118,7 @@ const UsuarioController = () => {
             id: null,
             nombre: nuevoUsuario.nombre,
             correo: nuevoUsuario.correo,
-            contraseña: nuevoUsuario.contraseña,
+            contraseña: SHA256(nuevoUsuario.contraseña).toString("hex"),
             rol: nuevoUsuario.rol
         });
         resp.json({
@@ -137,7 +142,7 @@ const UsuarioController = () => {
                 const UsuarioEditar = yield db.Usuario.update({
                     nombre: EditarUsuario.nombre,
                     correo: EditarUsuario.correo,
-                    contraseña: EditarUsuario.contraseña,
+                    contraseña: SHA256(EditarUsuario.contraseña).toString("hex"),
                     rol: EditarUsuario.rol
                 }, {
                     where: { id: id }
@@ -151,7 +156,7 @@ const UsuarioController = () => {
                 const UsuarioEditar = yield db.Usuario.update({
                     nombre: EditarUsuario.nombre,
                     correo: EditarUsuario.correo,
-                    contraseña: EditarUsuario.contraseña,
+                    contraseña: SHA256(EditarUsuario.contraseña).toString("hex"),
                 }, {
                     where: { id: id }
                 });

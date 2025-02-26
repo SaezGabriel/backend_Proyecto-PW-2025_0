@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 const db = require("../DAO/models");
+const { SHA256 } = require("sha2");
 
 const UsuarioController = () => {
     const path = "/usuarios";
@@ -7,9 +8,12 @@ const UsuarioController = () => {
 
     router.post("/login", async (req: Request, resp: Response) => {
         const { correo, contraseña } = req.body;
-    
+        const hashContra = SHA256(contraseña).toString("hex")
+        console.log("================================")
+        console.log("Hash contra+", hashContra)
+        console.log("================================")
         const usuario = await db.Usuario.findOne({
-            where: { correo, contraseña },
+            where: { correo: correo, contraseña: hashContra },
         });
     
         if (usuario) {
@@ -113,7 +117,7 @@ const UsuarioController = () => {
             id : null,
             nombre : nuevoUsuario.nombre,
             correo : nuevoUsuario.correo,
-            contraseña : nuevoUsuario.contraseña,
+            contraseña : SHA256(nuevoUsuario.contraseña).toString("hex"),
             rol : nuevoUsuario.rol
             
         })
@@ -144,7 +148,7 @@ const UsuarioController = () => {
             {const UsuarioEditar = await db.Usuario.update({
                     nombre: EditarUsuario.nombre,
                     correo: EditarUsuario.correo,
-                    contraseña: EditarUsuario.contraseña,
+                    contraseña: SHA256(EditarUsuario.contraseña).toString("hex"),
                     rol: EditarUsuario.rol
                 },
                 {
@@ -161,7 +165,7 @@ const UsuarioController = () => {
                 const UsuarioEditar = await db.Usuario.update({
                     nombre: EditarUsuario.nombre,
                     correo: EditarUsuario.correo,
-                    contraseña: EditarUsuario.contraseña,
+                    contraseña: SHA256(EditarUsuario.contraseña).toString("hex"),
                 },
                 {
                     where:{id : id}
@@ -216,8 +220,6 @@ const UsuarioController = () => {
             resp.json({ message: "Código válido." });
         }
     });
-
-
         
     return [ path, router ]
 }
