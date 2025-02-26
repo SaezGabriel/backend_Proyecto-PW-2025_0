@@ -85,6 +85,8 @@ const PresupuestoController = () => {
 
         const presupuesto = req.body
 
+        console.log(presupuesto)
+
         const presupuestoCreado = await db.Presupuesto.create({
             id : null,
             UsuarioId : presupuesto.UsuarioId,

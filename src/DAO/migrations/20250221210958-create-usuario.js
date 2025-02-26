@@ -44,6 +44,17 @@ module.exports = {
       },
       onDelete: "CASCADE"
     })
+
+    await queryInterface.addConstraint("ResetPassword", {
+      name : "FK_RESETPASSWORD_USUARIO",
+      type : "FOREIGN KEY",
+      fields : ["UsuarioId"],
+      references : {
+        table : "Usuario",
+        field : "id"
+      },
+      onDelete: "CASCADE"
+    })
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('Usuario');

@@ -20,6 +20,12 @@ module.exports = (sequelize, DataTypes) => {
         as : "UsuarioPre",
         onDelete: "CASCADE"
       })
+
+      Usuario.hasMany(models.ResetPassword, {
+        foreignKey : "UsuarioId",
+        as : "UsuarioReset",
+        onDelete: "CASCADE"
+      })
     }
   }
   Usuario.init({
