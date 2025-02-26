@@ -60,7 +60,10 @@ const EgresosController = () => {
                 as: "Categoria",
                 attributes: ["nombre"],
                 required: true
-            }
+            },
+            order: [
+                ['fecha', 'DESC']
+            ]
         });
         
         resp.json({
