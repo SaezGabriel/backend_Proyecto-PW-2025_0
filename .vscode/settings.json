@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/50921656-7f0e-41c1-bb48-0622df5fe815/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/2025-0-PrograWeb-OrtizGrupo",
+    "appService.deploySubpath": "."
+}

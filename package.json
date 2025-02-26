@@ -1,7 +1,7 @@
 {
   "name": "2025_0-4.pomodoapp-backend",
   "version": "1.0.0",
-  "main": "./dist/index.js",
+  "main": "index.js",
   "scripts": {
     "build": "npx tsc",
     "start": "npm install && node src/index.js",

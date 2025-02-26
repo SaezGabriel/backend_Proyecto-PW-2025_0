@@ -13,7 +13,13 @@ const db = {};
 let sequelize
 if (env === "development") {
   sequelize = new Sequelize(process.env.CADENA_CONEXION);
+  console.log("=============================================================")
+  console.log("Development")
+  console.log("=============================================================")
 } else {
+  console.log("=============================================================")
+  console.log("Production")
+  console.log("=============================================================")
   sequelize = new Sequelize(process.env.CADENA_CONEXION, {
     dialectOptions :  {
       ssl : {
