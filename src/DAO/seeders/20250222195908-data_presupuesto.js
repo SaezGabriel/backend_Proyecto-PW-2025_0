@@ -12,11 +12,6 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-    await queryInterface.bulkInsert("Categoria", [
-      { nombre : "Servicios" },
-      { nombre : "Alimentacion" },
-      { nombre : "Ocio" }
-    ])
     return queryInterface.bulkInsert('Presupuesto', [
       {
         UsuarioId : 1,
