@@ -1,2 +1,4 @@
 node_modules
 dist
+/src/DAO/config/config.json
+.env
