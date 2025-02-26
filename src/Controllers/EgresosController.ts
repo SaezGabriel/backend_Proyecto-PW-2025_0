@@ -53,6 +53,11 @@ const EgresosController = () => {
         })
     })
 
+    function mesesEntre(fechaOrigen : Date, fechaFin : Date) {
+        return (fechaFin.getMonth() - fechaOrigen.getMonth()) + 
+          (12 * (fechaFin.getFullYear() - fechaOrigen.getFullYear()))
+    }
+
     /*
     Endpoint de registro de Egreso
     Path : "/egresos"
@@ -76,6 +81,7 @@ const EgresosController = () => {
     */
     router.post("/", async (req : Request, resp : Response) => {
         const nuevoEgreso = req.body
+
         const egresoCreado = await db.Egresos.create({
             id : null,
             UsuarioId : nuevoEgreso.UsuarioId,
@@ -86,11 +92,41 @@ const EgresosController = () => {
             categoriaId : nuevoEgreso.categoriaId
         })
 
+        const egresosRecur : {UsuarioId : number, monto : number, fecha : Date, descripcion : string, recursivo : boolean, categoriaId : number}[] = []
+
+        if (nuevoEgreso.recurrente) {
+            
+            const fechaBase = new Date(nuevoEgreso.fecha);
+            const fechaHoy = new Date()
+
+            const meses = mesesEntre(fechaBase, fechaHoy) // Un año de egresos
+            
+            console.log("================================================")
+            console.log("Meses entre: "+meses)
+            console.log("================================================")
+
+            for (let i = 1; i <= meses; i++) {
+                const nuevaFecha = new Date(fechaBase);
+                nuevaFecha.setMonth(nuevaFecha.getMonth() + i); // Sumar meses
+
+                const egresoRecurrente = await db.Egresos.create({
+                    UsuarioId: nuevoEgreso.UsuarioId,
+                    monto: nuevoEgreso.monto,
+                    fecha: nuevaFecha,
+                    descripcion: nuevoEgreso.descripcion,
+                    recursivo: nuevoEgreso.recurrente,
+                    categoriaId: nuevoEgreso.categoriaId
+                });
+
+                egresosRecur.push(egresoRecurrente);
+            }
+        }
         console.log("Egreso creado: " + egresoCreado)
 
         resp.json({
             msg : "",
-            egreso : egresoCreado
+            egreso : egresoCreado,
+            egresosRecur : egresosRecur
         })
     })
 
