@@ -110,6 +110,42 @@ const UsuarioController = () => {
         }
     });
 
+        router.get("/contar", async (req: Request, resp: Response) => {
+        try {
+            const cantidadUsuarios = await db.Usuario.count(); // Cuenta los usuarios en la BD
+            resp.json({ totalUsuarios: cantidadUsuarios });
+        } catch (error) {
+            console.error("Error al obtener la cantidad de usuarios:", error);
+            resp.status(500).json({ msg: "Error interno del servidor" });
+        }
+    });
+
+    router.get("/usuarios-por-mes", async (req: Request, resp: Response) => {
+        try {
+            console.log("Modelos en db:", Object.keys(db));
+            console.log("¿Existe db.access_logs?", db.access_logs ? "Sí" : "No");
+    
+            const usuariosPorMes = await db.AccessLog.findAll({
+                attributes: [
+                    [db.sequelize.fn("EXTRACT", db.sequelize.literal("MONTH FROM access_time")), "Mes"], // Extrae el número del mes
+                    [db.sequelize.fn("COUNT", db.sequelize.col("usuario_id")), "cantidad"]
+                ],
+                where: { firstaccess: true }, // Solo contar los primeros accesos
+                group: [db.sequelize.literal("EXTRACT(MONTH FROM access_time)")], // Agrupa por número de mes
+                order: [[db.sequelize.literal("EXTRACT(MONTH FROM access_time)"), "ASC"]], // Ordena los meses correctamente
+            });
+    
+            resp.json({ usuariosPorMes });
+        } catch (error) {
+            console.error("Error al obtener usuarios por mes:", error);
+            resp.status(500).json({ 
+                error: "Error al obtener usuarios por mes", 
+                details: error instanceof Error ? error.message : String(error) 
+            });
+            
+        }
+    });
+
     router.post("/", async (req : Request, resp : Response) => {
 
         const nuevoUsuario = req.body
