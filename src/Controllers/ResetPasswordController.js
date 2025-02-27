@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const db = require("../DAO/models");
 const jwt = require('jsonwebtoken');
+const { SHA256 } = require("sha2");
 const ResetPasswordController = () => {
     const path = "/ResetPassword";
     const router = express_1.default.Router();
@@ -63,8 +64,9 @@ const ResetPasswordController = () => {
             resp.status(404).json({ msg: "Usuario no encontrado" });
         }
         console.log(usuario);
-        console.log(contraseña);
-        yield db.Usuario.update({ contraseña: contraseña }, { where: { id: usuario.id } });
+        console.log("Contra no HASH:" + contraseña);
+        const hashContra = SHA256(contraseña).toString("hex");
+        yield db.Usuario.update({ contraseña: hashContra }, { where: { id: usuario.id } });
         yield resetEntry.destroy();
         resp.json({ msg: "" });
     }));
