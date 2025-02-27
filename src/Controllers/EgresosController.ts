@@ -104,7 +104,7 @@ const EgresosController = () => {
     router.post("/", async (req : Request, resp : Response) => {
         const nuevoEgreso = req.body
 
-        const egresoCreado = await db.Egresos.create({
+        const egresoCreado = await db.Egresos.create({  
             id : null,
             UsuarioId : nuevoEgreso.UsuarioId,
             monto : nuevoEgreso.monto,
