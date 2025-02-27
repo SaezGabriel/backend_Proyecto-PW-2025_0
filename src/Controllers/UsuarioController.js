@@ -15,6 +15,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const db = require("../DAO/models");
 const { SHA256 } = require("sha2");
+const verificarPrimerAcceso = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const logins = yield db.AccessLog.findAll({
+        where: {
+            usuario_id: id
+        }
+    });
+    if (logins.length == 0) {
+        return true;
+    }
+    else {
+        return false;
+    }
+});
 const UsuarioController = () => {
     const path = "/usuarios";
     const router = express_1.default.Router();
@@ -29,6 +42,16 @@ const UsuarioController = () => {
         });
         if (usuario) {
             console.log("✅ Login correcto");
+            if (usuario.rol == 1) {
+                const primerAcceso = yield verificarPrimerAcceso(usuario.id);
+                const historial = yield db.AccessLog.create({
+                    id: null,
+                    usuario_id: usuario.id,
+                    access_time: new Date(),
+                    action: "login",
+                    firstaccess: primerAcceso,
+                });
+            }
             resp.json({
                 msg: "Login exitoso",
                 id: usuario.id,

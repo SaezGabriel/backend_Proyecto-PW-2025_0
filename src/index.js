@@ -13,6 +13,7 @@ const PresupuestoController_1 = __importDefault(require("./Controllers/Presupues
 const RolController_1 = __importDefault(require("./Controllers/RolController"));
 const EgresosController_1 = __importDefault(require("./Controllers/EgresosController"));
 const ResetPasswordController_1 = __importDefault(require("./Controllers/ResetPasswordController"));
+const AccessLogController_1 = __importDefault(require("./Controllers/AccessLogController"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 app.use(body_parser_1.default.json());
@@ -28,12 +29,14 @@ const [presupuestoPath, presupuestoRouter] = (0, PresupuestoController_1.default
 const [egresosPath, egresosRouter] = (0, EgresosController_1.default)();
 const [rolPath, rolRouter] = (0, RolController_1.default)();
 const [ResetPasswordPath, ResetPasswordRouter] = (0, ResetPasswordController_1.default)();
+const [accessLogPath, accessLogRouter] = (0, AccessLogController_1.default)();
 app.use(usuarioPath, usuarioRouter);
 app.use(categoriaPath, categoriaRouter);
 app.use(presupuestoPath, presupuestoRouter);
 app.use(egresosPath, egresosRouter);
 app.use(rolPath, rolRouter);
 app.use(ResetPasswordPath, ResetPasswordRouter);
+app.use(accessLogPath, accessLogRouter);
 app.listen(port, () => {
     console.log(`[Server]: Servidor ejecutandose en puerto ${port}`);
 });
