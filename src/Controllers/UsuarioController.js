@@ -129,7 +129,7 @@ const UsuarioController = () => {
     router.put("/", (req, resp) => __awaiter(void 0, void 0, void 0, function* () {
         const EditarUsuario = req.body;
         const id = Number(req.query.id);
-        const usuarioEncontrado = yield db.Usuario.findAll({
+        const usuarioEncontrado = yield db.Usuario.findOne({
             where: {
                 id: id,
             }
@@ -139,7 +139,7 @@ const UsuarioController = () => {
         }
         else {
             if (EditarUsuario.rol) {
-                const UsuarioEditar = yield db.Usuario.update({
+                yield db.Usuario.update({
                     nombre: EditarUsuario.nombre,
                     correo: EditarUsuario.correo,
                     contraseña: SHA256(EditarUsuario.contraseña).toString("hex"),
@@ -147,22 +147,24 @@ const UsuarioController = () => {
                 }, {
                     where: { id: id }
                 });
+                const usuarioActualizado = yield db.Usuario.findOne({ where: { id: id } });
                 resp.json({
                     msg: "",
-                    usuario: UsuarioEditar
+                    usuario: usuarioActualizado
                 });
             }
             else {
-                const UsuarioEditar = yield db.Usuario.update({
+                yield db.Usuario.update({
                     nombre: EditarUsuario.nombre,
                     correo: EditarUsuario.correo,
                     contraseña: SHA256(EditarUsuario.contraseña).toString("hex"),
                 }, {
                     where: { id: id }
                 });
+                const usuarioActualizado = yield db.Usuario.findOne({ where: { id: id } });
                 resp.json({
                     msg: "",
-                    usuario: UsuarioEditar
+                    usuario: usuarioActualizado
                 });
             }
         }

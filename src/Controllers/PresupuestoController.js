@@ -76,6 +76,7 @@ const PresupuestoController = () => {
     }));
     router.post("/", (req, resp) => __awaiter(void 0, void 0, void 0, function* () {
         const presupuesto = req.body;
+        console.log(presupuesto);
         const presupuestoCreado = yield db.Presupuesto.create({
             id: null,
             UsuarioId: presupuesto.UsuarioId,
