@@ -134,7 +134,7 @@ const UsuarioController = () => {
         const EditarUsuario = req.body
         const id = Number(req.query.id)
 
-        const usuarioEncontrado = await db.Usuario.findAll({
+        const usuarioEncontrado = await db.Usuario.findOne({
             where : {
                 id : id,
             }
@@ -145,7 +145,7 @@ const UsuarioController = () => {
             resp.status(404).json({ msg: "Usuario no encontrado" })}
         else{
             if(EditarUsuario.rol)
-            {const UsuarioEditar = await db.Usuario.update({
+            {await db.Usuario.update({
                     nombre: EditarUsuario.nombre,
                     correo: EditarUsuario.correo,
                     contraseña: SHA256(EditarUsuario.contraseña).toString("hex"),
@@ -155,14 +155,14 @@ const UsuarioController = () => {
                     where:{id : id}
                 }
             )
-
+            const usuarioActualizado = await db.Usuario.findOne({ where: { id: id } });
             resp.json({
                 msg : "",
-                usuario : UsuarioEditar
+                usuario : usuarioActualizado
             })    
             }
             else{
-                const UsuarioEditar = await db.Usuario.update({
+                await db.Usuario.update({
                     nombre: EditarUsuario.nombre,
                     correo: EditarUsuario.correo,
                     contraseña: SHA256(EditarUsuario.contraseña).toString("hex"),
@@ -171,10 +171,10 @@ const UsuarioController = () => {
                     where:{id : id}
                 }
             )
-
+            const usuarioActualizado = await db.Usuario.findOne({ where: { id: id } });
             resp.json({
                 msg : "",
-                usuario : UsuarioEditar
+                usuario : usuarioActualizado
             })     
             }
         }
