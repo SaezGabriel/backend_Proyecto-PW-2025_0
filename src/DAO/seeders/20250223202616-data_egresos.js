@@ -33,7 +33,7 @@ module.exports = {
       },{
         UsuarioId: 2,
         monto : 64.99,
-        fecha : new Date(2025,11,25),
+        fecha : new Date(2024,11,25),
         descripcion : "Pizza",
         recursivo : false,
         categoriaId : 2,

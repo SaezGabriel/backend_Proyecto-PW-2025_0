@@ -32,6 +32,25 @@ const EgresosController = () => {
     //  {
     //      "msg" : "Error: ..."  
     //  }
+
+
+    router.get("/", async (req : Request, resp : Response ) => {
+
+        const egresos = await db.Egresos.findAll({
+            include: {
+                model: db.Categoria,
+                as: "Categoria",
+                attributes: ["nombre"],
+                required: true
+            }
+        });
+        
+        resp.json({
+            msg : "",
+            egresos : egresos
+        })
+    })
+
     router.get("/todo/:id", async (req : Request, resp : Response ) => {
         const UsuarioId = Number(req.params.id)
 
@@ -44,7 +63,10 @@ const EgresosController = () => {
                 as: "Categoria",
                 attributes: ["nombre"],
                 required: true
-            }
+            },
+            order: [
+                ['fecha', 'DESC']
+            ]
         });
         
         resp.json({
@@ -106,6 +128,51 @@ const EgresosController = () => {
             msg : ""
         })
     })
+
+    router.get("/egresos-por-mes", async (req: Request, res: Response) => {
+        try {
+            const egresosPorMes = await db.Egresos.findAll({
+                attributes: [
+                    [db.sequelize.fn("DATE_TRUNC", "month", db.sequelize.col("fecha")), "Mes"],
+                    [db.sequelize.fn("SUM", db.sequelize.col("monto")), "total"]
+                ],
+                group: [db.sequelize.fn("DATE_TRUNC", "month", db.sequelize.col("fecha"))],
+                order: [[db.sequelize.fn("DATE_TRUNC", "month", db.sequelize.col("fecha")), "ASC"]],
+            });
+    
+            res.json({ egresosPorMes });
+        } catch (error) {
+            console.error("Error al obtener egresos por mes:", error);
+            res.status(500).json({ error: "Error al obtener egresos por mes" });
+        }
+    });
+
+    router.get("/egresos-por-categoria", async (req: Request, res: Response) => {
+        try {
+          const egresosPorCategoria = await db.Egresos.findAll({
+            attributes: [
+              [db.sequelize.col("Categoria.nombre"), "Categoria"],
+              [db.sequelize.fn("SUM", db.sequelize.col("monto")), "total"]
+            ],
+            include: [
+              { model: db.Categoria, attributes: [], as: "Categoria" } // Especificar alias aquí
+            ],
+            group: ["Categoria.id", "Categoria.nombre"],
+            raw: true,
+          });
+      
+          res.json({ egresosPorCategoria });
+        } catch (error) {
+          console.error("Error al obtener egresos por categoría:", error);
+          
+          // Verificar si error es una instancia de Error y manejarlo correctamente
+          if (error instanceof Error) {
+            res.status(500).json({ error: "Error al obtener egresos por categoría", details: error.message });
+          } else {
+            res.status(500).json({ error: "Error desconocido al obtener egresos por categoría" });
+          }
+        }
+      });
 
     // Operacion para obtener un egreso segun id
     router.get("/:id", async (req : Request, resp : Response ) => {
