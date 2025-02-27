@@ -3,36 +3,29 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Categoria extends Model {
+  class ResetPassword extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Categoria.hasMany(models.Presupuesto, {
-        foreignKey : "categoriaId",
-        as : "Categoria"
+      ResetPassword.belongsTo(models.Usuario, {
+        foreignKey : "UsuarioId",
+        as : "Usuario",
+        onDelete: "CASCADE"
       })
-<<<<<<< HEAD
-=======
-    }
-
-    static associate(models) {
-      Categoria.hasMany(models.Egresos,{
-        foreignKey : "categoriaId",
-        as : "Categoria"
-      })
->>>>>>> Azure
     }
   }
-  Categoria.init({
-    nombre: DataTypes.STRING
+  ResetPassword.init({
+    UsuarioId: DataTypes.INTEGER,
+    token: DataTypes.STRING,
+    fecha_creacion: DataTypes.DATE
   }, {
     sequelize,
-    modelName: 'Categoria',
+    modelName: 'ResetPassword',
     freezeTableName : true,
     timestamps : false
   });
-  return Categoria;
+  return ResetPassword;
 };

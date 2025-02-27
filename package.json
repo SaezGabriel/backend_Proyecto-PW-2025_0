@@ -1,10 +1,10 @@
 {
   "name": "2025_0-4.pomodoapp-backend",
   "version": "1.0.0",
-  "main": "./dist/index.js",
+  "main": "index.js",
   "scripts": {
     "build": "npx tsc",
-    "start": "node dist/index.js",
+    "start": "npm install && node src/index.js",
     "dev": "nodemon src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -16,9 +16,11 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
     "pg": "^8.13.1",
     "pg-hstore": "^2.3.4",
-    "sequelize": "^6.37.5"
+    "sequelize": "^6.37.5",
+    "sha2": "^1.0.2"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",

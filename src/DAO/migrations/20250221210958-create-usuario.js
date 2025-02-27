@@ -32,6 +32,31 @@ module.exports = {
         field : "id"
       },
       onDelete: "CASCADE"
+<<<<<<< HEAD
+=======
+    })
+
+    await queryInterface.addConstraint("Egresos", {
+      name : "FK_EGRESOS_USUARIO",
+      type : "FOREIGN KEY",
+      fields : ["UsuarioId"],
+      references : {
+        table : "Usuario",
+        field : "id"
+      },
+      onDelete: "CASCADE"
+    })
+
+    await queryInterface.addConstraint("ResetPassword", {
+      name : "FK_RESETPASSWORD_USUARIO",
+      type : "FOREIGN KEY",
+      fields : ["UsuarioId"],
+      references : {
+        table : "Usuario",
+        field : "id"
+      },
+      onDelete: "CASCADE"
+>>>>>>> Azure
     })
   },
   async down(queryInterface, Sequelize) {

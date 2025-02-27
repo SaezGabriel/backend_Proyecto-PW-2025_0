@@ -1,3 +1,5 @@
+const { SHA256 } = require("sha2");
+
 'use strict';
 
 /** @type {import('sequelize-cli').Migration} */
@@ -20,19 +22,19 @@ module.exports = {
       {
       nombre: 'Jose',
       correo : "jose@example.com",
-      contraseña : "1234",
+      contraseña : SHA256("1234").toString("hex"),
       rol : 1
       },
       {
         nombre: 'Maria',
         correo : "maria@example.com",
-        contraseña : "1234",
+        contraseña : SHA256("1234").toString("hex"),
         rol : 1
       },
       {
         nombre: 'Pepe',
         correo : "pepe@example.com",
-        contraseña : "abcd",
+        contraseña : SHA256("abcd").toString("hex"),
         rol : 2
       }
         

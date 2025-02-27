@@ -74,10 +74,6 @@ const PresupuestoController = () => {
                 Presupuesto : PresupuestoEditar,
             })
             }
-            
-            
-                 
-            
         }
     });
 
@@ -85,6 +81,11 @@ const PresupuestoController = () => {
 
         const presupuesto = req.body
 
+<<<<<<< HEAD
+=======
+        console.log(presupuesto)
+
+>>>>>>> Azure
         const presupuestoCreado = await db.Presupuesto.create({
             id : null,
             UsuarioId : presupuesto.UsuarioId,
