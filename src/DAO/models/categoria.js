@@ -14,8 +14,6 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey : "categoriaId",
         as : "Categoria"
       })
-<<<<<<< HEAD
-=======
     }
 
     static associate(models) {
@@ -23,7 +21,6 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey : "categoriaId",
         as : "Categoria"
       })
->>>>>>> Azure
     }
   }
   Categoria.init({

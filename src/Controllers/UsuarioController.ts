@@ -1,6 +1,23 @@
 import express, { Request, Response } from "express";
 const db = require("../DAO/models");
 const { SHA256 } = require("sha2");
+import { access } from "fs";
+import { where } from "sequelize";
+
+const verificarPrimerAcceso = async (id:number) => {
+    const logins = await db.AccessLog.findAll({
+        where : {
+            usuario_id : id
+        }
+    })
+
+    if(logins.length == 0){
+        return true
+    }else{
+        return false
+    }
+
+}
 
 const UsuarioController = () => {
     const path = "/usuarios";
@@ -18,6 +35,17 @@ const UsuarioController = () => {
     
         if (usuario) {
             console.log("✅ Login correcto");
+            if(usuario.rol == 1){
+                const primerAcceso = await verificarPrimerAcceso(usuario.id)
+                const historial = await db.AccessLog.create({
+                    id : null,
+                    usuario_id: usuario.id,
+                    access_time : new Date(),
+                    action : "login",
+                    firstaccess : primerAcceso,
+                })
+            }
+            
             resp.json({
                 msg: "Login exitoso",
                 id: usuario.id,

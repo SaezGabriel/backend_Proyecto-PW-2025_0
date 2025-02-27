@@ -80,12 +80,6 @@ const PresupuestoController = () => {
     router.post("/", async (req : Request, resp : Response) => {
 
         const presupuesto = req.body
-
-<<<<<<< HEAD
-=======
-        console.log(presupuesto)
-
->>>>>>> Azure
         const presupuestoCreado = await db.Presupuesto.create({
             id : null,
             UsuarioId : presupuesto.UsuarioId,

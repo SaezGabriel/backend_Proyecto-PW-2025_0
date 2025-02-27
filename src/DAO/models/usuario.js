@@ -19,15 +19,12 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey : "UsuarioId",
         as : "UsuarioPre",
         onDelete: "CASCADE"
-<<<<<<< HEAD
-=======
       })
 
       Usuario.hasMany(models.ResetPassword, {
         foreignKey : "UsuarioId",
         as : "UsuarioReset",
         onDelete: "CASCADE"
->>>>>>> Azure
       })
     }
   }

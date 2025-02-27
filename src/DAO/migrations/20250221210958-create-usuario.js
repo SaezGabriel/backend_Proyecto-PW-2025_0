@@ -32,8 +32,7 @@ module.exports = {
         field : "id"
       },
       onDelete: "CASCADE"
-<<<<<<< HEAD
-=======
+
     })
 
     await queryInterface.addConstraint("Egresos", {
@@ -56,7 +55,7 @@ module.exports = {
         field : "id"
       },
       onDelete: "CASCADE"
->>>>>>> Azure
+
     })
   },
   async down(queryInterface, Sequelize) {
