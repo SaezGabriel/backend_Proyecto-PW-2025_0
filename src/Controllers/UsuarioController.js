@@ -34,7 +34,8 @@ const UsuarioController = () => {
                 id: usuario.id,
                 rol: usuario.rol, // Enviamos el rol_id
                 nombre: usuario.nombre,
-                correo: usuario.correo
+                correo: usuario.correo,
+                contraseña: contraseña
             });
         }
         else {
