@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express"
 const db = require("../DAO/models")
 const jwt = require('jsonwebtoken');
-
+const { SHA256 } = require("sha2");
 
 const ResetPasswordController = () => {
     const path = "/ResetPassword"
@@ -66,9 +66,11 @@ const ResetPasswordController = () => {
         }
         
         console.log(usuario)
-        console.log(contraseña)
+        console.log("Contra no HASH:" + contraseña)
+
+        const hashContra = SHA256(contraseña).toString("hex")
         await db.Usuario.update(
-            { contraseña: contraseña },
+            { contraseña: hashContra },
             { where: { id: usuario.id } } 
         );
     
