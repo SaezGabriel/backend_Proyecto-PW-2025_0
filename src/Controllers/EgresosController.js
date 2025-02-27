@@ -121,7 +121,9 @@ const EgresosController = () => {
             const fechaHoy = new Date();
             const meses = mesesEntre(fechaBase, fechaHoy); // Un año de egresos
             console.log("================================================");
+            console.log("Fecha inicial: " + fechaBase);
             console.log("Meses entre: " + meses);
+            console.log("Fecha Final: " + fechaHoy);
             console.log("================================================");
             for (let i = 1; i <= meses; i++) {
                 const nuevaFecha = new Date(fechaBase);
